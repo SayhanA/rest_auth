@@ -74,6 +74,11 @@ const verifyOtp = catchAsyncError(async (req, res, next) => {
   const { email, otp } = req.body;
 
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new AppError(errors.array()[0].msg, 400));
+    }
+    
     const unVerifiedEntries = await User.find({
       email,
       isVerified: false,
@@ -190,6 +195,11 @@ const forgotPassword = catchAsyncError(async (req, res, next) => {
   const { email } = req.body;
 
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new AppError(errors.array()[0].msg, 400));
+    }
+
     const user = await User.findOne({ email, isVerified: true }).select(
       "-password -verificationToken -verificationTokenExpiredAt"
     );
@@ -222,6 +232,11 @@ const resetPassword = catchAsyncError(async (req, res, next) => {
   const { password } = req.body;
 
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new AppError(errors.array()[0].msg, 400));
+    }
+
     const user = await User.findOne({
       resetPasswordToken: token,
       resetPasswordExpiredAt: { $gt: Date.now() },
@@ -345,5 +360,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getAccessToken,
-  logout
+  logout,
 };
