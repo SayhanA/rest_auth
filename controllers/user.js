@@ -10,6 +10,7 @@ const AppError = require("../utils/AppError");
 const jwt = require("jsonwebtoken");
 
 const register = catchAsyncError(async (req, res, next) => {
+  console.log({req})
   const { name, email, password } = req.body;
 
   const errors = validationResult(req);

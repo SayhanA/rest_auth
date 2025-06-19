@@ -71,7 +71,7 @@ router.post("/forgot_password", emailValidation, forgotPassword);
 router.post("/reset_password/:token", passwordValidation, resetPassword);
 
 // GET: /api/auth/access_token
-router.get("/access_token", getAccessToken);
+router.get("/access-token", getAccessToken);
 
 // GET: /api/auth/logout
 router.get("/logout", isAuthenticated, logout);
